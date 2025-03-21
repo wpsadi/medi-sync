@@ -8,7 +8,6 @@ import { useState } from "react"
 import { toast } from "sonner"
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { Sidebar } from "@/components/dashboard/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -72,7 +71,7 @@ export default function ProfilePage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+
 
       <div className="flex-1">
         <div className="container mx-auto px-4 py-6">

@@ -6,7 +6,6 @@ import { useState } from "react"
 import { toast } from "sonner"
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { Sidebar } from "@/components/dashboard/sidebar"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -115,8 +114,6 @@ export default function DeveloperPage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
-
       <div className="flex-1">
         <div className="container mx-auto px-4 py-6">
           <DashboardHeader />

@@ -13,5 +13,17 @@ export class Url {
     static extendURL(...args: string[]) {
         return new URL(args.join("/"), this.currentURL).toString();
     }
+
+    static get serverURL(){
+      const url = process.env.SERVER_URL; // this doesnt contain protocol like http:// or https://
+      // check if its localhost since its the starts with localhost and ensure its not a domain like localhost.*.*
+      //console.log(url);
+      
+      if (url.startsWith("localhost") && !url.match(/localhost\.\w+\.\w+/)) {
+        return `http://${url}/api`;
+      } else {
+        return `https://${url}/api`;
+      }
+    }
   
 }

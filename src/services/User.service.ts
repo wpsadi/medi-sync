@@ -4,6 +4,8 @@ import { meDef } from "./Auth/me";
 import { sessionDef } from "./Auth/session";
 import { updateNameDef } from "./Auth/updatename";
 import {  updatePasswordDef } from "./Auth/updatepass";
+import { completeOnboardingDef } from "./User/completeOnboarding";
+import { isOnboardingCompletedDef } from "./User/isOnboardingCompleted";
 
 
 export class User {
@@ -12,4 +14,6 @@ export class User {
     static updatePassword = updatePasswordDef;
     static logout = logoutdef;
     static me = meDef
+    static isOnboardingCompleted = isOnboardingCompletedDef
+    static completeOnboarding  = completeOnboardingDef
 }

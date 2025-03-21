@@ -22,6 +22,20 @@ async function Layout({
         return redirect(Url.extendURL("/auth/verify-email?email=" + encodeURIComponent(profile.data!.email)));
     }
 
+
+
+    // ensuring onboarding is completed
+
+    const onboardingInfo = await User.isOnboardingCompleted();
+    if (onboardingInfo.error) {
+        return redirect(Url.extendURL("auth"));
+    }
+
+    if (!onboardingInfo.data) {
+        return redirect(Url.extendURL("/auth/onboarding"));
+    }
+
+
   return (
     <>
     {children}

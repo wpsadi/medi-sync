@@ -11,11 +11,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { User } from "@/services/User.service"
+
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
+    id:crypto.randomUUID(),
     fullName: "",
     dateOfBirth: "",
     gender: "",
@@ -48,6 +51,7 @@ export default function OnboardingPage() {
       setStep(step + 1)
       window.scrollTo(0, 0)
     }
+    return;
   }
 
   const handlePrevious = () => {
@@ -59,24 +63,21 @@ export default function OnboardingPage() {
     // Basic validation for each step
     if (step === 1) {
       if (!formData.fullName || !formData.dateOfBirth || !formData.gender) {
-        toast.info("Please fill in all required fields.")
+        toast.error("Please fill in all required fields.")
         return false
       }
     } else if (step === 2) {
       if (!formData.address || !formData.city || !formData.state || !formData.pincode) {
-        
-        toast.info("Please fill in all required fields.")
+        toast.error("Please fill in all required fields.")
         return false
       }
     } else if (step === 3) {
       if (!formData.aadhaarNumber || formData.aadhaarNumber.length !== 12 || !/^\d+$/.test(formData.aadhaarNumber)) {
-        
-        toast.info("Please enter a valid 12-digit Aadhaar number without spaces.")
+        toast.error("Please enter a valid 12-digit Aadhaar number.")
         return false
       }
       if (!formData.emergencyContact || !formData.emergencyRelation) {
-       
-        toast.info("Please fill in all required fields.")
+        toast.error("Please fill in all required fields.")
         return false
       }
     }
@@ -84,24 +85,34 @@ export default function OnboardingPage() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+
+
 
     if (!validateCurrentStep()) {
       return
     }
 
+  
+
     setIsLoading(true)
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const {error} = await User.completeOnboarding(formData)
+
+      if (error) {
+        toast.error(error)
+        return
+      }
 
       toast.success("Profile created successfully")
 
       router.push("/dashboard")
-    } catch  {
-      
+    } catch {
+
       toast.error("An error occurred. Please try again.")
+      
     } finally {
       setIsLoading(false)
     }
@@ -185,7 +196,17 @@ export default function OnboardingPage() {
               {step === 4 && "Share important medical information for emergency situations"}
             </CardDescription>
           </CardHeader>
-          <form onSubmit={step === 4 ? handleSubmit : undefined}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault() // Always prevent default form submission
+              if (step === 4 && (e.nativeEvent as SubmitEvent).submitter?.textContent?.includes("Complete Setup")) {
+                handleSubmit(e)
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.preventDefault()
+            }}
+          >
             <CardContent className="space-y-4">
               {/* Step 1: Personal Information */}
               {step === 1 && (
@@ -404,7 +425,8 @@ export default function OnboardingPage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               ) : (
-                <Button type="submit" disabled={isLoading}>
+                <>
+                <Button type="button" disabled={isLoading} name="completeSetup" onClick={handleSubmit}>
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -414,6 +436,8 @@ export default function OnboardingPage() {
                     "Complete Setup"
                   )}
                 </Button>
+                </>
+                
               )}
             </CardFooter>
           </form>

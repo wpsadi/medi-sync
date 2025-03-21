@@ -6,6 +6,7 @@ declare global {
         APPWRITE_ENDPOINT: string;
         APPWRITE_PROJECT_API_KEY: string;
         NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL :string
+        SERVER_URL :string
       }
     }
   }
