@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Auth } from "@/services/Auth.service"
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -71,7 +72,14 @@ export default function SignupPage() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const {error} = await Auth.registerUser(formData.email, formData.password, formData.name)
+
+      if (error) {
+        toast.error(error)
+        return;
+      }
+
+
 
       // For demo purposes, show a success message and redirect to verify email
       
@@ -167,7 +175,7 @@ export default function SignupPage() {
               </Label>
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
+          <CardFooter className="flex flex-col space-y-4 mt-3">
             <Button type="submit" className="w-full" disabled={isLoading || !formData.agreeTerms}>
               {isLoading ? (
                 <>

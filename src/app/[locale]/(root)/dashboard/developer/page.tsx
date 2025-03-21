@@ -2,7 +2,6 @@
 
 import { AlertTriangle, ArrowLeft, Check, Copy, Eye, EyeOff, FileText,Key, Lock, Plus, Trash } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -68,7 +67,9 @@ export default function DeveloperPage() {
   const [newClientSecret, setNewClientSecret] = useState("")
   const [showSecret, setShowSecret] = useState(false)
 
-  const router = useRouter()
+  console.log("DeveloperPage",activeTab)
+
+  // const router = useRouter()
 
   const handleCreateApiKey = () => {
     if (!newKeyName.trim()) return
@@ -94,10 +95,7 @@ export default function DeveloperPage() {
     setShowNewOAuthDialog(false)
     setShowSecretDialog(true)
 
-    toast({
-      title: "OAuth client created",
-      description: "Your new OAuth client has been created successfully.",
-    })
+    toast.success("OAuth client created")
   }
 
   const handleCopyToClipboard = (text: string, type: string) => {
@@ -106,10 +104,12 @@ export default function DeveloperPage() {
   }
 
   const handleDeleteApiKey = (keyId: string) => {
+    console.log(keyId)
     toast.info("API key deleted")
   }
 
   const handleDeleteOAuthClient = (clientId: string) => {
+    console.log(clientId)
     toast.info("OAuth client deleted")
   }
 

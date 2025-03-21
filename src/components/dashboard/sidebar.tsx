@@ -20,11 +20,13 @@ import {
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect,useState } from "react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
+import { User as UserClass } from "@/services/User.service"
 
 interface SidebarProps {
   className?: string
@@ -132,6 +134,25 @@ export function Sidebar({ className }: SidebarProps) {
     },
   ]
 
+  const handleLogout = () => {
+    const promise = async() =>{
+      const {data,error} = await UserClass.logout()
+      if(error){
+        throw new Error(error)
+      }
+
+      return data
+    } ;
+
+toast.promise(promise, {
+  loading: 'Loading...',
+  success: ()=> {
+    return `Logged out successfully`;
+  },
+  error:"An error occurred. Please try again." ,
+});
+  }
+
   const SidebarContent = () => (
     <div className={cn("h-full flex flex-col py-4", className)}>
       <div className="px-3 py-2">
@@ -172,7 +193,7 @@ export function Sidebar({ className }: SidebarProps) {
       <div className="mt-auto px-3 py-2">
         <div className="space-y-1">
           <Link href="/auth/login">
-            <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive">
+            <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive" onClick={handleLogout}>
               <LogOut className="mr-2 h-5 w-5" />
               Log out
             </Button>

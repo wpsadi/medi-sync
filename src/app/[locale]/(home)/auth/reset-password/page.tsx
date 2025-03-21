@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Auth } from "@/services/Auth.service"
 
 export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -26,8 +27,8 @@ export default function ResetPasswordPage() {
 
   // const router = useRouter()
   const searchParams = useSearchParams()
-  const token = searchParams.get("token") || ""
-  const code = searchParams.get("code") || ""
+  const userId = searchParams.get("userId") || ""
+  const secret = searchParams.get("secret") || ""
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -68,7 +69,12 @@ export default function ResetPasswordPage() {
 
     try {
       // Simulate API call with token and code
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const {error} = await Auth.updateRecoveryPassword(userId, secret, formData.password)
+
+      if (error) {
+        toast.error(error)
+        return
+      }
 
       setIsSuccess(true)
 
@@ -85,7 +91,7 @@ export default function ResetPasswordPage() {
   }
 
   // Check if token and code are present
-  if (!token || !code) {
+  if (!userId || !secret) {
     return (
       <div className="container mx-auto px-4 py-12 flex justify-center items-center min-h-[calc(100vh-200px)]">
         <Card className="w-full max-w-md">
@@ -145,7 +151,7 @@ export default function ResetPasswordPage() {
                 {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword}</p>}
               </div>
             </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
+            <CardFooter className="flex flex-col space-y-4 mt-3">
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <>

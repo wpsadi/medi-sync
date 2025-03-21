@@ -116,10 +116,13 @@ export default function SettingsPage() {
 
   const handleConnectApp = (appId: number) => {
     // In a real app, this would open OAuth flow or connection dialog
+    console.log(appId)
     toast.loading("Connecting app...")
   }
 
   const handleDisconnectApp = (appId: number) => {
+    console.log(appId)
+    // In a real app, this would disconnect the app
     toast.info("Disconnecting app...")
   }
 

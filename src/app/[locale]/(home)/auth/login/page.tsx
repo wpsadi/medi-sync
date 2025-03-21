@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Auth } from "@/services/Auth.service"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -37,16 +38,23 @@ export default function LoginPage() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const { error } = await Auth.emailPasswordLogin(formData.email, formData.password)
+
+      if (error) {
+        toast.error(error)
+        return;
+      }
+
+
 
       // For demo purposes, just show a success message and redirect
-      
+
       toast.success("Signed in successfully")
 
       router.push("/dashboard")
     } catch {
       toast.error("An error occurred. Please try again.")
-      
+
     } finally {
       setIsLoading(false)
     }
@@ -91,7 +99,7 @@ export default function LoginPage() {
                 disabled={isLoading}
               />
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2" hidden>
               <Checkbox
                 id="rememberMe"
                 checked={formData.rememberMe}

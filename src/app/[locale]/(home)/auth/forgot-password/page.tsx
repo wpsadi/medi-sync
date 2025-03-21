@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Auth } from "@/services/Auth.service"
 
 export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -23,7 +24,12 @@ export default function ForgotPasswordPage() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const {error} = await Auth.requestRecoveryPassword(email)
+
+      if (error) {
+        toast.error(error)
+        return;
+      }
 
       setIsSubmitted(true)
       toast.success("Reset link sent. Please check your email for password reset instructions.")
@@ -59,7 +65,7 @@ export default function ForgotPasswordPage() {
                 />
               </div>
             </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
+            <CardFooter className="flex flex-col space-y-4 mt-3">
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <>
