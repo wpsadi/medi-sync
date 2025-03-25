@@ -18,7 +18,6 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
-    id:crypto.randomUUID(),
     fullName: "",
     dateOfBirth: "",
     gender: "",
@@ -99,6 +98,34 @@ export default function OnboardingPage() {
 
     try {
       // Simulate API call
+
+      // update blodd grp
+      // 'A_POS',  'A_NEG',
+      // 'B_POS',  'B_NEG',
+      // 'AB_POS', 'AB_NEG',
+      // 'O_POS',  'O_NEG'
+
+      if (formData.bloodGroup === "A+") {
+        formData.bloodGroup = "A_POS"
+      } else if (formData.bloodGroup === "A-") {
+        formData.bloodGroup = "A_NEG"
+      } else if (formData.bloodGroup === "B+") {
+        formData.bloodGroup = "B_POS"
+      } else if (formData.bloodGroup === "B-") {
+        formData.bloodGroup = "B_NEG"
+      } else if (formData.bloodGroup === "AB+") {
+        formData.bloodGroup = "AB_POS"
+      } else if (formData.bloodGroup === "AB-") {
+        formData.bloodGroup = "AB_NEG"
+      } else if (formData.bloodGroup === "O+") {
+        formData.bloodGroup = "O_POS"
+      } else if (formData.bloodGroup === "O-") {
+        formData.bloodGroup = "O_NEG"
+      } else {
+        toast.error("Invalid blood group selected")
+        return
+      }
+
       const {error} = await User.completeOnboarding(formData)
 
       if (error) {

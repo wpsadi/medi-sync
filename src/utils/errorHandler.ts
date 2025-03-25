@@ -18,6 +18,8 @@ export const handleError = (err:unknown,message:string)=>{
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const firstIssue = issues[0] as any
 
+            console.log(firstIssue)
+
 
             return {
                 data:undefined,

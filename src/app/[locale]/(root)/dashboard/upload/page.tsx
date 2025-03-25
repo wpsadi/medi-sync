@@ -64,20 +64,25 @@ export default function UploadPage() {
     setIsUploading(true)
     setUploadProgress(0)
 
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          setIsUploading(false)
+    // create formdata as this
+//     userId:550e8400-e29b-41d4-a716-446655440001
+// fileName:MedicalRecords
+// testType:Medical Test
+// hospitalName:Batra hospital
+// visitDate:2024-03-15T10:30:00Z
+// description:It was a blood test.
+// isConfidential:true
+// file:some File
 
-          toast.success("Files uploaded successfully and are now available in your documents.")
+    // form Files get each files name in index
 
-          router.push("/dashboard/documents")
-          return 100
-        }
-        return prev + 5
-      })
-    }, 200)
+    toast.info("Not implemented here")
+
+    // pending from here...
+    // const myformData = new FormData()
+
+    // myformData.append("fileName",formData.)
+
   }
 
   const handleSubmit = (e: React.FormEvent) => {

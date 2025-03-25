@@ -7,6 +7,26 @@ import { ssrAxios } from "@/axios/ssrAxios";
 import { handleError } from "@/utils/errorHandler";
 
 import { updatePrefs } from "./updatePrefs";
+import { meDef } from "../Auth/me";
+
+type UserRegistrationResponse = {
+    success: boolean;
+    message: string;
+    data?: UserData & {
+        id:string;
+    };
+  };
+  
+  type UserData = {
+    id: string;
+    name: string;
+    email: string;
+    gender: "MALE" | "FEMALE" | "OTHER";
+    phone: string;
+    dateOfBirth: string;
+    createdAt: string;
+  };
+  
 
 // {
     
@@ -27,7 +47,7 @@ import { updatePrefs } from "./updatePrefs";
       
 // }
 export const completeOnboardingDef = async (data:{
-    id:string
+
     fullName: string,
     dateOfBirth: string,
     gender: string,
@@ -50,12 +70,58 @@ export const completeOnboardingDef = async (data:{
     try{
 
         // making api call here
+        const user =await  meDef()
 
-        const response = await ssrAxios.post<{
-            success:boolean,
-            message:string,
-            data?:unknown
-        }>("user/register",data)
+        if (user.error){
+            throw new Error(user.error)
+        }
+
+        const response = await ssrAxios.post<UserRegistrationResponse>("user/register",{
+            ...data,
+            fullName:undefined,
+            name:data.fullName,
+            email:user.data!.email,
+            gender : data.gender.toLocaleUpperCase().trim(),
+            phone:data.emergencyContact,
+            emergencyContact:undefined,
+            aadhaarNumber:undefined,
+            aadhaarDetails: {
+                aadhaarNumber: data.aadhaarNumber
+              },
+            id : user.data!.$id,
+            medicalInformation:{
+                chronicConditions: data.chronicConditions.split(","),
+                currentMedications: data.currentMedications.split(","),
+                allergies: data.allergies.split(","),
+                bloodGroup: data.bloodGroup
+            },
+
+            // making these undefiend
+            chronicConditions:undefined,
+            currentMedications:undefined,
+            allergies:undefined,
+            bloodGroup:undefined,
+            addressDetails:{
+                address:data.address,
+                city:data.city,
+                state:data.state,
+                pinCode:data.pincode
+            },
+
+            // making these undefiend
+
+            address:undefined,
+            city:undefined,
+            state:undefined,
+            pincode:undefined,
+            emergencyRelation:undefined,
+
+
+            dateOfBirth:new Date(data.dateOfBirth).toISOString()
+
+
+
+        })
 
         if (!response.data.success){
             throw new AppwriteException(response.data.message)
@@ -71,7 +137,7 @@ export const completeOnboardingDef = async (data:{
 
 
         return {
-            data:true,
+            data:response.data.data!,
             error:undefined
         }
 

@@ -1,40 +1,19 @@
-import { File,FileText, Image } from "lucide-react"
+import { File,FileText, Image, Link } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { CombinedUserData } from "@/services/User/getUserApi"
 
-// Sample recent documents
-const recentDocuments = [
-  {
-    id: 1,
-    name: "Annual Checkup Report.pdf",
-    type: "pdf",
-    date: "15 Mar 2025",
-    hospital: "City Hospital",
-  },
-  {
-    id: 2,
-    name: "Blood Test Results.pdf",
-    type: "pdf",
-    date: "15 Mar 2025",
-    hospital: "City Hospital",
-  },
-  {
-    id: 3,
-    name: "X-Ray Report.jpg",
-    type: "image",
-    date: "15 Mar 2025",
-    hospital: "City Hospital",
-  },
-  {
-    id: 4,
-    name: "Prescription - Antibiotics.pdf",
-    type: "pdf",
-    date: "10 Feb 2025",
-    hospital: "City Hospital",
-  },
-]
 
-export function RecentDocuments() {
+
+export function RecentDocuments({
+  data
+}:{
+  data:CombinedUserData
+}) {
+  // get first four recent documents
+  console.log(data.medicalRecords)
+  const recentDocuments = data.medicalRecords.length > 4 ? data.medicalRecords.slice(0, 4) : data.medicalRecords
+
   const getFileIcon = (type: string) => {
     switch (type) {
       case "pdf":
@@ -49,20 +28,34 @@ export function RecentDocuments() {
 
   return (
     <div className="space-y-1">
-      {recentDocuments.map((doc) => (
+{/* 
+      {
+        recentDocuments.length == 0 && (<>
+        <div className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50">
+          <div>
+            <div className="font-medium">No recent documents</div>
+          </div>
+        </div>
+          
+        </>)
+      } */}
+      {recentDocuments.length > 0 &&  recentDocuments.map((doc) => (
         <div key={doc.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50">
           <div className="flex items-center gap-3">
-            {getFileIcon(doc.type)}
+            {getFileIcon("unknown")}
             <div>
-              <div className="font-medium">{doc.name}</div>
+              <div className="font-medium">{doc.fileName}</div>
               <div className="text-xs text-muted-foreground">
-                {doc.hospital} • {doc.date}
+                {doc.hospitalName} • {doc.visitDate}
               </div>
             </div>
           </div>
+          <Link href={doc.fileUrl}>
           <Button variant="ghost" size="sm">
             View
           </Button>
+          </Link>
+          
         </div>
       ))}
 
