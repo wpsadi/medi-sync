@@ -26,7 +26,7 @@ export default async function middleware(req:NextRequest) {
     console.log("Redirecting to locale :",lang)
     // add search params to the url
 
-      const newURL = Url.extendURL(lang.data!, pathname, req.nextUrl.search);
+      const newURL = await Url.extendURL(lang.data!, pathname, req.nextUrl.search);
 
       console.log("newURL", newURL);
 

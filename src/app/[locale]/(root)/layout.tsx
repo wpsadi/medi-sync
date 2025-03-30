@@ -13,13 +13,13 @@ async function Layout({
     const profile = await User.me();
 
     if (profile.error) {
-        return redirect(Url.extendURL("auth"));
+        return redirect(await Url.extendURL("auth"));
     }
 
     console.log(profile.data?.emailVerification)
 
     if (!profile.data?.emailVerification) {
-        return redirect(Url.extendURL("/auth/verify-email?email=" + encodeURIComponent(profile.data!.email)));
+        return redirect(await Url.extendURL("/auth/verify-email?email=" + encodeURIComponent(profile.data!.email)));
     }
 
 
@@ -28,11 +28,11 @@ async function Layout({
 
     const onboardingInfo = await User.isOnboardingCompleted();
     if (onboardingInfo.error) {
-        return redirect(Url.extendURL("auth"));
+        return redirect(await Url.extendURL("auth"));
     }
 
     if (!onboardingInfo.data) {
-        return redirect(Url.extendURL("/auth/onboarding"));
+        return redirect(await Url.extendURL("/auth/onboarding"));
     }
 
 

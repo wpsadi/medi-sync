@@ -129,6 +129,27 @@ export default function OnboardingPage() {
       const {error} = await User.completeOnboarding(formData)
 
       if (error) {
+
+        // chnge back to original blood group
+        if (formData.bloodGroup === "A_POS") {
+          formData.bloodGroup = "A+"
+        } else if (formData.bloodGroup === "A_NEG") {
+          formData.bloodGroup = "A-"
+        } else if (formData.bloodGroup === "B_POS") {
+          formData.bloodGroup = "B+"
+        } else if (formData.bloodGroup === "B_NEG") {
+          formData.bloodGroup = "B-"
+        } else if (formData.bloodGroup === "AB_POS") {
+          formData.bloodGroup = "AB+"
+        } else if (formData.bloodGroup === "AB_NEG") {
+          formData.bloodGroup = "AB-"
+        } else if (formData.bloodGroup === "O_POS") {
+          formData.bloodGroup = "O+"
+        } else if (formData.bloodGroup === "O_NEG") {
+          formData.bloodGroup = "O-"
+        }
+
+
         toast.error(error)
         return
       }
@@ -453,7 +474,7 @@ export default function OnboardingPage() {
                 </Button>
               ) : (
                 <>
-                <Button type="button" disabled={isLoading} name="completeSetup" onClick={handleSubmit}>
+                <Button type="submit" disabled={isLoading} name="completeSetup">
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />

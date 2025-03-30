@@ -18,9 +18,9 @@ export const requestRecoveryPasswordDef = async (email:string)=>{
 
             
 
-            //console.log(Url.extendURL("auth","reset-password"))
+            //console.log(await Url.extendURL("auth","reset-password"))
 
-            const recovery = await data!.account.createRecovery(email,Url.extendURL("auth","reset-password"));
+            const recovery = await data!.account.createRecovery(email,await Url.extendURL("auth","reset-password"));
 
             //console.log(recovery)
 

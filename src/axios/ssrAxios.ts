@@ -5,7 +5,7 @@ import { Url } from '@/utils/Url';
 
 export const ssrAxios = axios.create({
     withCredentials: false,
-    baseURL: Url.serverURL,
+    baseURL: Url.ServerUrl,
 
     headers: {
        

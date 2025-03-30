@@ -15,7 +15,7 @@ export const sendVerifyDef = async ()=>{
            throw new Error(error)
        }
 
-       const TokenInfo = await data!.account.createVerification(Url.extendURL("/auth/verify-email"));
+       const TokenInfo = await data!.account.createVerification(await Url.extendURL("/auth/verify-email"));
 
        //console.log(TokenInfo)
 

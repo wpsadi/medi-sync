@@ -69,7 +69,7 @@ export  type CombinedUserData = {
   };
   
 
-export const getUserAPI = async ()=>{
+export const getUserAPIDef = async (userId?:string)=>{
     try{
       const {data,error} = await meDef()
       
@@ -78,7 +78,9 @@ export const getUserAPI = async ()=>{
 
       }
 
-      const userId = data!.$id
+      if (!userId){
+          userId = data!.$id
+      }
 
         const response = await ssrAxios.get
         <ApiResponse>(`user/${userId}`);

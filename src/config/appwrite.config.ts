@@ -7,7 +7,7 @@ import { handleError } from "@/utils/errorHandler";
 export const createSession = async () => {
     try {
         const { data: token, error } = await AuthSession.getSessionToken();
-
+        
         // || !token
         if (error ) {
             throw new Error(error || 'Failed to retrieve session token');

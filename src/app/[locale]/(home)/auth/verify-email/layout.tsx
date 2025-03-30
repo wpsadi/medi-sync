@@ -13,13 +13,13 @@ async function Layout({
     const profile = await User.me();
 
     if (profile.error) {
-        return redirect(Url.extendURL("auth"));
+        return redirect(await Url.extendURL("auth"));
     }
 
     console.log(profile.data?.emailVerification)
 
     if (profile.data?.emailVerification) {
-        return redirect(Url.extendURL("dashboard"));
+        return redirect(await Url.extendURL("dashboard"));
     }
 
   return (

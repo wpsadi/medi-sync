@@ -7,7 +7,7 @@ export const handleError = (err:unknown,message:string)=>{
 
     if (isAxiosError(err)){
         console.log(err.response?.data)
-        const error = err.response?.data?.error as string | object
+        const error = err.response?.data?.message as string | object
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if ( (typeof error === "object" && error !== null) && (error as any).name === "ZodError"){
@@ -30,7 +30,7 @@ export const handleError = (err:unknown,message:string)=>{
         }
 
 
-        const message = err.response?.data?.error as string ?? err.message as string
+        const message = err.response?.data?.message as string ?? err.message as string
 
         return {
             data:undefined,

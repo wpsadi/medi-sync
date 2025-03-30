@@ -1,33 +1,36 @@
+import { getWebsiteOriginURL } from "./getWebsiteOrigin";
+
 export class Url {
-    static get currentURL() {
-      if (!process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL){
-        console.log(`Vercel URL: ${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`)
-      }
-
-        const url = String(process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) || "localhost"; // this doesnt contain protocol like http:// or https://
-        // check if its localhost since its the starts with localhost and ensure its not a domain like localhost.*.*
-        //console.log(url);
+    // static get currentURL() {
+      // !---------------------This is DEPRECATED---------------------!
+      // !---------------------This is DEPRECATED---------------------!
+      // !---------------------This is DEPRECATED---------------------!
+      // !---------------------This is DEPRECATED---------------------!
+    //     const url = process.env.NEXT_PUBLIC_VERCEL_URL; // this doesnt contain protocol like http:// or https://
+    //     // check if its localhost since its the starts with localhost and ensure its not a domain like localhost.*.*
+    //     //console.log(url);
         
-        if (url.startsWith("localhost") && !url.match(/localhost\.\w+\.\w+/)) {
-          return `http://${url}:${process.env.PORT}`;
-        } else {
-          return `https://${url}`;
-        }
-    }
-    static extendURL(...args: string[]) {
-        return new URL(args.join("/"), this.currentURL).toString();
+    //     if (await Url.startsWith("localhost"await Url. !url.match(/localhost\.\w+\.\w+/)) {
+    //       return `http://${url}:${process.env.PORT}`;
+    //     } else {
+    //       return `https://${url}`;
+    //     }
+    // }
+
+    static get ServerUrl() {
+        return process.env.SERVER_URL;
     }
 
-    static get serverURL(){
-      const url = process.env.SERVER_URL; // this doesnt contain protocol like http:// or https://
-      // check if its localhost since its the starts with localhost and ensure its not a domain like localhost.*.*
-      //console.log(url);
-      
-      if (url.startsWith("localhost") && !url.match(/localhost\.\w+\.\w+/)) {
-        return `http://${url}/api`;
-      } else {
-        return `https://${url}/api`;
-      }
+
+
+    static async extendURL(...args: string[]) {
+      const currentURL = await getWebsiteOriginURL();
+
+
+
+
+
+        return new URL(args.join("/"), currentURL).toString();
     }
   
 }

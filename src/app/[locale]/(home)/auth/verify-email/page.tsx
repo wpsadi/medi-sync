@@ -17,7 +17,10 @@ export default function VerifyEmailPage() {
   const [isVerified, setIsVerified] = useState(false)
   const [isError, setIsError] = useState(false)
   const router = useRouter()
-  const [countdown, setCountdown] = useState(60)
+  const [countdown, setCountdown] = useState(0);
+  // to enable counter
+  const timerVal = 60
+  const [countdownEnabled, setCountdownEnabled] = useState(false)
 
   const searchParams = useSearchParams()
   const email = searchParams.get("email") || ""
@@ -26,11 +29,11 @@ export default function VerifyEmailPage() {
 
   // Countdown timer for resend
   useEffect(() => {
-    if (countdown > 0 && !isVerified) {
+    if (countdown > 0 && !isVerified && countdownEnabled) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
       return () => clearTimeout(timer)
     }
-  }, [countdown, isVerified])
+  }, [countdown, isVerified,countdownEnabled])
 
   // Dummy verification function
   
@@ -79,6 +82,8 @@ export default function VerifyEmailPage() {
 
   const handleResend = async () => {
     setIsLoading(true)
+    setCountdownEnabled(true)
+    setCountdown(timerVal)
 
     try {
       // Simulate API call
