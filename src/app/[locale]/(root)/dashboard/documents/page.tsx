@@ -1,18 +1,18 @@
 import React from 'react'
 
-import { User } from '@/services/User.service'
+import { Medical } from '@/services/Medical.service'
 
 import DocumentsPage from './documentsPage'
 
 async function Page() {
-    const {data,error} = await User.getUserData()
+    const {data,error} = await Medical.listFiles()
   
     if (error) {
       return <div>{error}</div>
     }
   
   return (
-    <DocumentsPage data={data!}/>
+    <DocumentsPage  files={data!}/>
   )
 }
 

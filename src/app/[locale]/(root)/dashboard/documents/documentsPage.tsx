@@ -30,7 +30,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { CombinedUserData } from "@/services/User/getUserApi"
+import {  MedicalRecord } from "@/services/User/getUserApi"
 
 // // Sample document data
 // const documents = [
@@ -127,18 +127,25 @@ const folders = [
 ]
 
 export default function DocumentsPage({
-data
+files
 }:{
-    data:CombinedUserData
+    files:MedicalRecord[],
 }) {
+  console.log(files)
 
-    const documents = data.medicalRecords;
+    const documents = files;
   const [viewMode, setViewMode] = useState<"grid" | "list">("list")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDocuments, setSelectedDocuments] = useState<string[]>([])
   const [currentFolder, setCurrentFolder] = useState<string | null>(null)
 
   const filteredDocuments = documents.filter((doc) => {
+      // RETURN ALL DOCUMENTS FOR NOW IF NO FOLDER SELECTED OR SEARCH QUERY
+    if (!currentFolder && !searchQuery) {
+      return true
+    }
+
+
     // Filter by search query
     const matchesSearch =
       doc.fileName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -372,12 +379,12 @@ data
                           <div className="ml-3 truncate">
                             <div className="font-medium truncate">{doc.fileName}</div>
                             <div className="text-xs text-muted-foreground md:hidden">
-                              {doc.hospitalName || doc.testType} • {doc.visitDate}
+                              {doc.hospitalName || doc.testType} • {(new Date(doc.visitDate)).toLocaleDateString()}
                             </div>
                           </div>
                         </div>
                         <div className="w-32 hidden md:block text-sm text-muted-foreground">{doc.hospitalName? "Hospital" : "Test"}</div>
-                        <div className="w-32 hidden md:block text-sm text-muted-foreground">{doc.visitDate}</div>
+                        <div className="w-32 hidden md:block text-sm text-muted-foreground">{(new Date(doc.visitDate)).toLocaleDateString()}</div>
                         {/* <div className="w-20 hidden sm:block text-sm text-muted-foreground">{doc.}</div> */}
                         <div className="w-8 flex items-center">
                           {/* <Button variant="ghost" size="icon" onClick={() => toggleStarDocument(doc.id)}>
@@ -397,9 +404,11 @@ data
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link href={doc.fileUrl}>
                                 <Download className="mr-2 h-4 w-4" />
                                 <span>Download</span>
+                              </Link>
                               </DropdownMenuItem>
                               <DropdownMenuItem>
                                 <Share className="mr-2 h-4 w-4" />
@@ -430,7 +439,7 @@ data
                           <div>
                             <div className="font-medium truncate max-w-[150px]">{doc.fileName}</div>
                             <div className="text-xs text-muted-foreground">{doc.hospitalName ? "Hospital" : "Test"}</div>
-                            <div className="text-xs text-muted-foreground">{doc.visitDate}</div>
+                            <div className="text-xs text-muted-foreground">{(new Date(doc.visitDate)).toLocaleDateString()}</div>
                           </div>
                         </div>
                         {/* <Button variant="ghost" size="icon" onClick={() => toggleStarDocument(doc.id)}>
@@ -444,9 +453,19 @@ data
                       <div className="bg-muted px-4 py-2 flex justify-between items-center">
                         <span className="text-xs text-muted-foreground">{"~"}</span>
                         <div className="flex gap-1">
-                          <Button variant="ghost" size="icon" className="h-7 w-7">
+                            <Link
+                            href={doc.fileUrl}
+                            >
+                            <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7"
+                          
+                            >
                             <Download className="h-3.5 w-3.5" />
-                          </Button>
+                            </Button>
+                            </Link>
+                         
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon" className="h-7 w-7">

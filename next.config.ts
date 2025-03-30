@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
       }
     ] as RemotePattern[], // Use the RemotePattern type
   },
+  experimental: {
+    serverActions: {  
+      bodySizeLimit: '200mb',
+    },
+  },
 };
 
 export default nextConfig;

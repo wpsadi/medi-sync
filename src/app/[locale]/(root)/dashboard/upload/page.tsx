@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Medical } from "@/services/Medical.service"
 
 
 export default function UploadPage() {
@@ -37,6 +38,10 @@ export default function UploadPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files)
+
+      
+
+
       setSelectedFiles([...selectedFiles, ...filesArray])
     }
   }
@@ -60,7 +65,21 @@ export default function UploadPage() {
     setFormData((prev) => ({ ...prev, isConfidential: checked }))
   }
 
-  const simulateUpload = () => {
+  const simulateUpload =async () => {
+
+    if (selectedFiles.length === 0) {
+      toast.error("Please select at least one file to upload.")
+      return
+    }
+
+    const totalFiles = selectedFiles.length
+
+    if (totalFiles >1) {
+      toast.error("Please select only one file to upload for now.")
+      return
+    }
+
+
     setIsUploading(true)
     setUploadProgress(0)
 
@@ -74,14 +93,45 @@ export default function UploadPage() {
 // isConfidential:true
 // file:some File
 
-    // form Files get each files name in index
+    // get the file from selectedFiles[0]
+    const file = selectedFiles[0]
 
-    toast.info("Not implemented here")
 
-    // pending from here...
-    // const myformData = new FormData()
 
-    // myformData.append("fileName",formData.)
+    const myformData= new FormData()
+
+
+
+
+    myformData.append("fileName",file.name)
+    myformData.append("testType",formData.testType)
+    myformData.append("hospitalName",formData.hospitalName)
+    myformData.append("visitDate",(new Date(formData.date)).toISOString())
+    myformData.append("description",formData.description)
+    myformData.append("isConfidential",formData.isConfidential.toString())
+    myformData.append("file",file)
+
+    const {data,error} = await Medical.uploadFile(myformData)
+
+    if (error){
+      toast.error(error)
+      setIsUploading(false)
+      return
+    }
+
+    if (!data){
+      toast.error("Unable to upload file")
+      setIsUploading(false)
+      return
+    }
+
+    // since its success we can remove the file from the selected files
+    setSelectedFiles([])
+    setIsUploading(false)
+    setUploadProgress(100)
+    toast.success("File uploaded successfully")
+    router.push("/dashboard/documents")
+
 
   }
 
@@ -214,7 +264,6 @@ export default function UploadPage() {
                       className="hidden"
                       multiple
                       onChange={handleFileChange}
-                      accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
                     />
                     <label htmlFor="fileUpload" className="cursor-pointer">
                       <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-4" />

@@ -50,7 +50,7 @@ export  type CombinedUserData = {
     currentMedications: string[];
   };
   
-  type MedicalRecord = {
+export  type MedicalRecord = {
     id: string;
     userId: string;
     fileName: string;
