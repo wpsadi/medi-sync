@@ -7,7 +7,7 @@ import TemporaryProfilePage from './ui';
 async function Page({
     params,
     }: {
-    params: { userId: string; token: string }
+    params: Promise<{ userId: string; token: string }>
 }) {
 
     const userParams = await params;
