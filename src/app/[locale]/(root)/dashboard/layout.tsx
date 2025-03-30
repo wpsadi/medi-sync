@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 // import { DashboardHeader } from '@/components/dashboard/dashboard-header'    
 import { Sidebar } from '@/components/dashboard/sidebar'
+
+import Loading from './loading'
 
 function DashLayout({
     children
@@ -17,7 +19,11 @@ function DashLayout({
        <div className="flex-1 flex flex-col">
          <div className="container mx-auto">
            {/* <DashboardHeader /> */}
+           <Suspense fallback={<Loading />}>
+
               {children}
+
+            </Suspense>
 
             </div>
             </div>

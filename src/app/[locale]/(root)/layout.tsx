@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { User } from '@/services/User.service'
 import { Url } from '@/utils/Url';
@@ -38,7 +38,14 @@ async function Layout({
 
   return (
     <>
-    {children}
+    <Suspense fallback={<div>Loading...</div>}>
+        <div className='flex flex-col h-full'>
+            <div className='flex-1'>
+            {children}
+            </div>
+        </div>
+    </Suspense>
+  
     </>
   )
 }
