@@ -20,7 +20,6 @@ import { useState } from "react"
 import { toast } from "sonner"
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { Sidebar } from "@/components/dashboard/sidebar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
@@ -231,7 +230,6 @@ export default function RemindersPage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
 
       <div className="flex-1">
         <div className="container mx-auto px-4 py-6">

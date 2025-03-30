@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { Sidebar } from "@/components/dashboard/sidebar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -146,7 +145,6 @@ export default function HealthMetricsPage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
 
       <div className="flex-1">
         <div className="container mx-auto px-4 py-6">

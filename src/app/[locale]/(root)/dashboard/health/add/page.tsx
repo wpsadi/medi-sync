@@ -7,7 +7,6 @@ import { useState } from "react"
 import { toast } from 'sonner'
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { Sidebar } from "@/components/dashboard/sidebar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -74,7 +73,7 @@ export default function AddHealthMetricPage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+  
 
       <div className="flex-1">
         <div className="container mx-auto px-4 py-6">

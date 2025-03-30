@@ -5,8 +5,6 @@ import Link from "next/link"
 import {  useSearchParams } from "next/navigation"
 import { useEffect,useState } from "react"
 
-import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { Sidebar } from "@/components/dashboard/sidebar"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -293,13 +291,10 @@ export default function HelpPage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
-
+   
       <div className="flex-1">
         <div className="container mx-auto px-4 py-6">
-          <DashboardHeader />
-
-          <div className="mb-6">
+                 <div className="">
             <Link href="/dashboard">
               <Button variant="ghost" size="sm" className="gap-1">
                 <ArrowLeft className="h-4 w-4" />
