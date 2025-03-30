@@ -71,14 +71,15 @@ export  type CombinedUserData = {
 
 export const getUserAPIDef = async (userId?:string)=>{
     try{
-      const {data,error} = await meDef()
-      
-      if (error){
-          throw new Error(error)
-
-      }
+     
 
       if (!userId){
+        const {data,error} = await meDef()
+      
+        if (error){
+            throw new Error(error)
+  
+        }
           userId = data!.$id
       }
 
