@@ -1,6 +1,10 @@
 export class Url {
     static get currentURL() {
-        const url = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL; // this doesnt contain protocol like http:// or https://
+      if (!process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL){
+        console.log(`Vercel URL: ${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`)
+      }
+
+        const url = String(process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) || "localhost"; // this doesnt contain protocol like http:// or https://
         // check if its localhost since its the starts with localhost and ensure its not a domain like localhost.*.*
         //console.log(url);
         
