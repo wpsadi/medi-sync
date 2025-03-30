@@ -18,7 +18,6 @@ import {
   Share,
   SortAsc,
   Star,
-  StarOff,
   Tag,
   Trash,
 } from "lucide-react"
@@ -181,10 +180,10 @@ data
     }
   }
 
-  const toggleStarDocument = (id: string) => {
-    // In a real app, this would update the document in the database
-    console.log(`Toggling star for document ${id}`)
-  }
+  // const toggleStarDocument = (id: string) => {
+  //   // In a real app, this would update the document in the database
+  //   console.log(`Toggling star for document ${id}`)
+  // }
 
   return (
     <div className="container mx-auto px-4 py-6">

@@ -6,8 +6,8 @@ import { AppwriteException } from "node-appwrite";
 import { ssrAxios } from "@/axios/ssrAxios";
 import { handleError } from "@/utils/errorHandler";
 
-import { updatePrefs } from "./updatePrefs";
 import { meDef } from "../Auth/me";
+import { updatePrefs } from "./updatePrefs";
 
 type UserRegistrationResponse = {
     success: boolean;

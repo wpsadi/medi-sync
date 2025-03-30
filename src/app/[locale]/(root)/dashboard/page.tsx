@@ -1,5 +1,7 @@
-import { User } from '@/services/User.service'
 import React from 'react'
+
+import { User } from '@/services/User.service'
+
 import DashboardPage from './dashComponent'
 
 async function Page() {

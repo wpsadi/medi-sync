@@ -1,5 +1,7 @@
-import { User } from '@/services/User.service'
 import React from 'react'
+
+import { User } from '@/services/User.service'
+
 import DocumentsPage from './documentsPage'
 
 async function Page() {
