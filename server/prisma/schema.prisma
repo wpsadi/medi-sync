@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  gender      Gender
+  phone       String
+  dateOfBirth DateTime
+  createdAt   DateTime @default(now())
+
+  medicalRecords     MedicalRecord[]
+  emergencyContacts  EmergencyContact[]
+  qrCode             QRCode?
+  addressDetails     AddressDetails?
+  aadhaarDetails     AadhaarDetails?
+  medicalInformation MedicalInformation?
+}
+
+model MedicalInformation {
+  id                 String     @id @default(uuid())
+  userId             String     @unique
+  bloodGroup         BloodGroup
+  allergies          String[]   @default([])
+  chronicConditions  String[]   @default([])
+  currentMedications String[]   @default([])
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmergencyContact {
+  id                    String  @id @default(uuid())
+  userId                String
+  name                  String
+  relationship          String?
+  phone                 String
+  email                 String?
+  isNotificationEnabled Boolean @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AadhaarDetails {
+  id          String @id @default(uuid())
+  userId      String @unique
+  aadhaarHash String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AddressDetails {
+  id      String @id @default(uuid())
+  userId  String @unique
+  address String
+  city    String
+  state   String
+  pinCode String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MedicalRecord {
+  id             String   @id @default(uuid())
+  userId         String
+  fileName       String
+  fileType       String
+  testType       String?
+  hospitalName   String?
+  visitDate      DateTime @default(now())
+  fileUrl        String
+  description    String?
+  isConfidential Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model QRCode {
+  id         String    @id @default(uuid())
+  userId     String    @unique
+  qrCodeData String
+  qrCodeUrl  String
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum BloodGroup {
+  A_POS
+  A_NEG
+  B_POS
+  B_NEG
+  AB_POS
+  AB_NEG
+  O_POS
+  O_NEG
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}

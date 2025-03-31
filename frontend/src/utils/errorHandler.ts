@@ -9,6 +9,8 @@ export const handleError = (err:unknown,message:string)=>{
         console.log(err.response?.data)
         const error = err.response?.data?.message as string | object ?? err.response?.data?.error as string
 
+        console.log(error)
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if ( (typeof error === "object" && error !== null) && (error as any).name === "ZodError"){
             // this means we have a zod error and we have array if issues and we return only the message in first issue
@@ -30,7 +32,7 @@ export const handleError = (err:unknown,message:string)=>{
         }
 
 
-        const message = err.response?.data?.message as string ?? err.message as string
+        const message = err.response?.data?.message as string ??  err.response?.data?.error as string ?? err.response?.data?.error as string ?? err.message as string
 
         return {
             data:undefined,

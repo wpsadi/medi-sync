@@ -1,0 +1,19 @@
+FROM node:14
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENV ELEVENLABS_API_KEY = sk_23266c581dc3583dca9b64308bf0e227f3c1beaa3503cfdc
+ENV APPWRITE_PROJECT_ID=67e6a6c900314399319e
+ENV APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+ENV APPWRITE_BUCKET_ID=67ea1a7600243a035c0e
+ENV PORT = 5000
+
+EXPOSE 5000
+
+CMD ["npm", "start"]

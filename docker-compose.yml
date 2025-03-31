@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  main-frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - main-server
+    environment:
+      - PORT=3000
+
+  main-server:
+    build: ./server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - speech-server
+      - chat-bot-server
+    environment:
+      - PORT=8000
+
+  speech-server:
+    build: ./speech-server
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+
+  chat-bot-server:
+    build: ./chat-bot
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002

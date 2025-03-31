@@ -20,6 +20,9 @@ export class Url {
     static get ServerUrl() {
         return process.env.SERVER_URL;
     }
+    static get chatURL() {
+        return process.env.CHAT_URL;
+    }
 
 
 

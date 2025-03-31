@@ -7,9 +7,14 @@ exports.createChat = async (req, res) => {
     const chatId = new mongoose.Types.ObjectId().toString();
     const newChat = new Chat({ chatId, messages: [] });
     await newChat.save();
-    res.status(201).json({ chatId: newChat.chatId });
+    res.status(201).json({ 
+      data: newChat.chatId,
+      error: undefined
+     });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create chat' });
+    res.status(500).json({ 
+      data:undefined,
+      error: 'Failed to create chat' });
   }
 };
 
@@ -51,8 +56,11 @@ exports.sendMessage = async (req, res) => {
     await chat.save();
 
     res.json({
-      message: flaskResponse.data.response,
-      chatId
+      data:{
+        chatId: chat.chatId,
+        messages: "good day to u sir",
+        starting: chat.starting
+      }
     });
   } catch (error) {
     console.error('Error:', error);
@@ -69,7 +77,13 @@ exports.getChatHistory = async (req, res) => {
       return res.status(404).json({ error: 'Chat not found' });
     }
 
-    res.json(chat);
+    res.json({
+      data: {
+        chatId: chat.chatId,
+        messages: chat.messages,
+        starting: chat.starting
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch chat' });
   }
@@ -84,8 +98,17 @@ exports.deleteChat = async (req, res) => {
       return res.status(404).json({ error: 'Chat not found' });
     }
 
-    res.json({ message: 'Chat deleted successfully' });
+    res.json({ data: 'Chat deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete chat' });
   }
 };
+
+exports.allChatIds = async (req, res) => {
+  try {
+    const chats = await Chat.find({}, { chatId: 1, starting: 1 });
+    res.json({ data: chats });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch chat IDs' });
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "medisync",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "echo medi-sync",
+    "start": "bun --watch run main.ts"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.5.0",
+    "@types/bun": "latest",
+    "pg": "^8.14.1",
+    "prisma": "^6.5.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
+    "appwrite": "^17.0.1",
+    "cloudinary": "^2.6.0",
+    "hono": "^4.7.5",
+    "qrcode": "^1.5.4",
+    "zod": "^3.24.2"
+  }
+}
