@@ -8,20 +8,40 @@ import {
   Platform,
 } from 'react-native';
 import * as SMS from 'expo-sms';
-import { Client, Databases } from 'appwrite';
+import { Client, Databases,Account, ID } from 'react-native-appwrite';
 
-const ConnectionScreen =async () => {
+
+const ConnectionScreen =() => {
   const [isConnected, setIsConnected] = useState(false);
   const [isSmsAvailable, setIsSmsAvailable] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState('Not subscribed');
-  const isAvailable = (await SMS.isAvailableAsync()).valueOf();
+  const isAvailable = false;
+
+  useEffect(()=>{
+    const checkSmsAvailability = async () => {
+      const { valueOf } = await SMS.isAvailableAsync();
+      setIsSmsAvailable(valueOf());
+    };
+
+    checkSmsAvailability();
+
+    const subscription = client.subscribe('files', response => {
+      console.log('Update received:', response);
+      setSubscriptionStatus('Subscribed');
+    });
+
+    return () => {
+      subscription(); // Unsubscribe on component unmount
+    };
+  },[])
   
 
 
   const client = new Client();
     client
       .setEndpoint('https://cloud.appwrite.io/v1') // Replace with your Appwrite endpoint
-      .setProject('your-project-id'); // Replace with your project ID
+      .setProject('67dd74f3001832f9e837') // Replace with your project ID
+      .setPlatform("com.anonymous.boltexponativewind")
 
   // Callback function for Appwrite events
   const updateCallback = (response:unknown) => {
@@ -83,9 +103,9 @@ const ConnectionScreen =async () => {
         console.log('Connected successfully');
         
         // Send SMS notification on successful connection
-        if (isSmsAvailable) {
-          await sendDummySms();
-        }
+        // if (isSmsAvailable) {
+        //   await sendDummySms();
+        // }
       }, 1000);
     }
   };

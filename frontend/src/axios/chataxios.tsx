@@ -8,6 +8,8 @@ export const chatAxios = axios.create({
     baseURL: Url.chatURL,
   });
 
+  chatAxios.defaults.withCredentials = false
+
   chatAxios.interceptors.request.use(async (config) => {
     const session = await AuthSession.getSessionToken();
         console.log(Url.chatURL);

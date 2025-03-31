@@ -23,7 +23,20 @@
       "typedRoutes": true
     },
     "android": {
-      "package": "com.anonymous.boltexponativewind"
+      "package": "com.anonymous.boltexponativewind",
+      "permissions": [
+        "SEND_SMS",
+        "READ_SMS",
+        "RECEIVE_SMS"
+      ]
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d6595834-7a1f-40a8-8473-5ff2f3627938"
+      }
     }
   }
 }

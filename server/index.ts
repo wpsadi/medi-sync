@@ -20,6 +20,7 @@ app.use(
       "http://127.0.0.1:3000"
     ],
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
