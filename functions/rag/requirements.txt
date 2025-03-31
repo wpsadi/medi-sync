@@ -1,0 +1,5 @@
+appwrite
+pymongo
+langchain
+langchain-community
+requests
