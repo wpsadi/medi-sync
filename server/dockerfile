@@ -10,7 +10,6 @@ COPY . .
 
 RUN bunx prisma generate
 
-<<<<<<< HEAD
 ENV DATABASE_URL=postgresql://neondb_owner:npg_P3fTU2NFpjsv@ep-royal-tree-a5rjcq7k-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require
 ENV PORT = 8000
 ENV CLOUDINARY_CLOUD_NAME=dm4vwtxjs
@@ -23,8 +22,8 @@ ENV APPWRITE_PROJECT_ID=67dd74f3001832f9e837
 ENV APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
 ENV APPWRITE_QR_CODES_BUCKET_ID=67dea41b002a0fbc1ffc
 ENV APPWRITE_RECORD_PDFS_BUCKET_ID=67dea4370009b54eacdd
-=======
->>>>>>> 011272b29a6d1e8490c9e916073993ab51e16307
+
+
 
 EXPOSE 8000
 

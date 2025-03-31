@@ -16,18 +16,8 @@ connectDB();
 // Middleware
 app.use(cors([
   {
-<<<<<<< HEAD
     origin: "*",
-=======
-    origin: [
-      process.env.CORS_ORIGIN,
-      "https://medi-sync-iota.vercel.app",
-      "https://www.healthyapp.com",
-      "https://healthyapp.com",
-      "http://localhost:3000",
-      "http://127.0.0.1:3000"
-    ],
->>>>>>> 011272b29a6d1e8490c9e916073993ab51e16307
+
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
