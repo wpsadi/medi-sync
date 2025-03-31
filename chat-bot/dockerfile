@@ -19,8 +19,8 @@ EXPOSE 3002
 # Set environment variables
 ENV MONGODB_URI=mongodb+srv://wpsadi:y716RFDJ6pePnxeP@lang.wjzp8.mongodb.net/ai-chat 
 ENV FLASK_API_URL=http://localhost:5000/chat 
-ENV PORT=3002 
-ENV CORS_ORIGIN=http://localhost:3000
+
+ENV CORS_ORIGIN=*
 
 # Start the application
 CMD ["npm", "run", "start"]
