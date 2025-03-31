@@ -10,6 +10,19 @@ COPY . .
 
 RUN bunx prisma generate
 
+ENV DATABASE_URL=postgresql://neondb_owner:npg_P3fTU2NFpjsv@ep-royal-tree-a5rjcq7k-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require
+ENV PORT = 8000
+ENV CLOUDINARY_CLOUD_NAME=dm4vwtxjs
+ENV CLOUDINARY_API_KEY=127371483375234
+ENV CLOUDINARY_API_SECRET=SwsquzkFInW4tpbnBwi5AlscLEY
+ENV FRONTEND_URL=https://medi-sync-iota.vercel.app
+ENV JWT_SECRET=medi-sync-secret
+ENV JWT_ALGORITHM=HS256
+ENV APPWRITE_PROJECT_ID=67dd74f3001832f9e837
+ENV APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+ENV APPWRITE_QR_CODES_BUCKET_ID=67dea41b002a0fbc1ffc
+ENV APPWRITE_RECORD_PDFS_BUCKET_ID=67dea4370009b54eacdd
+
 EXPOSE 8000
 
 CMD ["bun", "run", "start"]
