@@ -19,10 +19,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - uses: actions/checkout@v2
-      - name: naviagte to the directory
-        run: cd frontend
+
       - name: Install dependencies
-        run: npm install
+        run: cd frontend & npm install
       - name: Creating build for main
         run: npm run build
  
