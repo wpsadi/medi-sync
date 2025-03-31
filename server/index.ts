@@ -12,7 +12,13 @@ const app = new Hono().basePath("/api");
 app.use(logger());
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "https://medi-sync-iota.vercel.app",
+      "https://www.healthyapp.com",
+      "https://healthyapp.com",
+      "http://localhost:3000",
+      "http://127.0.0.1:3000"
+    ],
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
